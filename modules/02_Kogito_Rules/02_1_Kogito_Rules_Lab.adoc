@@ -400,13 +400,13 @@ and replace the constaint of the rule (`$p: /persons[age >= 18];`) with the foll
   $p: /persons[age >= adultAge];
 ```
 
-We've now added the functionality we want, so we can start our application again:
+We've now added the functionality we want, so we can start our application again. Execute the following Maven command in a terminal:
 
-`mvn clean compile quarkus:dev`{{execute T1}}
+`$ mvn clean compile quarkus:dev`{{execute T1}}
 
 We can now hit the application with a request that contains our new `adultAge` variable:
 
-`curl -X POST "http://localhost:8080/adult" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"adultAge\": 21, \"persons\":[{\"age\":18,\"name\":\"Jason\"}]}"`{{execute T2}}
+`$ curl -X POST "http://localhost:8080/adult" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"adultAge\": 21, \"persons\":[{\"age\":18,\"name\":\"Jason\"}]}"`{{execute T2}}
 
 This will give you the following result:
 
@@ -416,14 +416,19 @@ This will give you the following result:
 
 Notice that, because we have defined the `adultAge` to be 21, Jason is no longer considered an adult.
 
-## OpenAPI Specification
+== OpenAPI Specification
 
-A Kogito Quarkus application running in Quarkus dev-mode automatically exposes an OpenAPI specification of its RESTful resources through a Swagger-UI. You can open this Swagger [using this link](https://[[CLIENT_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/swagger-ui).
+A Kogito Quarkus application running in Quarkus dev-mode automatically exposes an OpenAPI specification of its RESTful resources through a Swagger-UI.
+You can open this Swagger-UI http://localhost:8080/swagger-ui[using this link].
 
 Open the **POST /adult** RESTful endpoint. Note that a fully typed API is generated for you, based on your business assets like your rule units and rules.
 
-![API](/openshift/assets/middleware/middleware-kogito/kogito-adult-post-api.png)
+image:images/kogito-adult-post-api.png[Kogito Adult Service POST API]
 
-## Congratulations!
+== Congratulations!
 
 You have added a variable to your rule unit and used it in your rules. You've also experienced the power of live/hot reload of Kogito, providing extremely fast roundtrip times.
+
+In this lab, you've learned how to implement business rules using _Rule Units_ in Kogito.
+We've seen how Kogito generates a RESTful microservice from business assets, like your rule unit and rules.
+We've experienced the power of Kogito hot-reload when changing rules.
