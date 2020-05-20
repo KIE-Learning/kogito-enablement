@@ -42,8 +42,9 @@ Kogito offers a powerful developer experience based on battle-tested components.
 
 === Goals of this Lab
 
-* Implement a simple process
-* execute in you local environment
+* Implement a simple process.
+* Execute in you local environment.
+* Build a native image.
 
 === Prerequisits
 
@@ -54,21 +55,21 @@ Kogito offers a powerful developer experience based on battle-tested components.
 * cURL (or another client/tool with which RESTful requests can be sent to the Kogito application)
 * GraalVM 20.x OpenJDK 11 (Optional. Required if you want to run a native compilation)
 
-In this step, you will create a Kogito application skeleton.
-
 
 = Create a basic project
 
 The easiest way to create a new Kogito project is to execute the following Maven command:
 
-`mvn archetype:generate \
+```console
+mvn archetype:generate \
   -DinteractiveMode=false \
   -DarchetypeGroupId=org.kie.kogito \
   -DarchetypeArtifactId=kogito-quarkus-archetype \
   -DarchetypeVersion=0.9.1 \
   -DgroupId=org.acme \
   -DartifactId=getting-started \
-  -Dversion=1.0-SNAPSHOT`
+  -Dversion=1.0-SNAPSHOT
+```
 
 This will use the Kogito Quarkus Archetype and generate a basic Maven project for you in the `getting-started` subdirectory, generating:
 
