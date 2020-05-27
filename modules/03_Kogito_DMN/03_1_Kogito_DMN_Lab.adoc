@@ -9,7 +9,7 @@
 :linkattrs:
 
 
-= Kogito: Rules and RuleUnits Lab
+= Kogito: Decision Model & Notation (DMN) Lab
 
 == What is Kogito?
 
