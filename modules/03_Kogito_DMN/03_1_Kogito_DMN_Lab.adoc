@@ -44,6 +44,7 @@ Kogito offers a powerful developer experience based on battle-tested components.
 
 * Implement a DMN decision service in Kogito.
 * Execute in you local environment.
+* Create a native image.
 
 === Prerequisits
 
