@@ -423,7 +423,7 @@ image:images/native-image-process.png[Native Image]
 
 We will be using GraalVM, which includes a native compiler for producing native images for a number of languages, including Java.
 
-## Build native image
+== Build native image
 
 Within the `pom.xml` file of our application is the declaration for the Quarkus Maven plugin which contains a profile for `native-image`:
 
@@ -460,7 +460,7 @@ Next, create a native executable by executing the followig Maven command:
 `$ mvn clean package -Pnative -DskipTests=true`
 
 NOTE: Native image are compiled for the architecture on which the image is compiled. When you run a native image compilation on a Linux machine, the target OS of the native executable is Linux. When you build a native image on macOS, the target operating system is macOS.
-Hence, an executable built on macOS will not run ona Linux platform. If you need to build native Linux binaries when on other OS's like Windows or macOS, you can use `-Dquarkus.native.container-runtime=[podman | docker]`. You'll need either Docker or [Podman](https://podman.io) installed depending on which container runtime you want to use!
+Hence, an executable built on macOS will not run on a Linux platform. If you need to build native Linux binaries when on other OS's like Windows or macOS, you can use `-Dquarkus.native.container-runtime=[podman | docker]`. You'll need either Docker or [Podman](https://podman.io) installed depending on which container runtime you want to use!
 
 The native compilation will take a couple of minutes to finish. Wait for it!
 
