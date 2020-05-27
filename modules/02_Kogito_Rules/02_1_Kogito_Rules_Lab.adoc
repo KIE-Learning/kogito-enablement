@@ -44,7 +44,6 @@ Kogito offers a powerful developer experience based on battle-tested components.
 
 * Implement (business) rules in Kogito using RuleUnits.
 * Execute in you local environment.
-* Build a native image.
 
 === Prerequisits
 
@@ -116,7 +115,7 @@ When the application has started, you can access the http://localhost:8080/swagg
 
 You should see the following page:
 
-image:images/new-kogito-quarkus-empty-swagger-ui.png
+image:images/new-kogito-quarkus-empty-swagger-ui.png[Empty Swagger UI]
 
 It's working!
 
