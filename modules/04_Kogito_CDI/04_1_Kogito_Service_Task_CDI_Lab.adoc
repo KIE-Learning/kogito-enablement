@@ -116,18 +116,22 @@ We will use this process definition as the base of our application.
 We will now run the Kogito application in development mode. This allows us to keep the application running while implementing our application logic.
 Kogito and Quarkus will _hot reload_ the application when it is accessed and changes have been detected.
 
-`cd /root/projects/kogito/service-task-cdi`{{execute}}
+Go back to your terminal (or open the integrated terminal in Visual Studio Code).
 
-`mvn clean compile quarkus:dev`{{execute}}
+image:images/vscode-integrated-terminal.png[VSCode POM]
 
-When the application has started, you can access the [Swagger UI](https://[[CLIENT_SUBDOMAIN]]-8080-[[KATACODA_HOST]].environments.katacoda.com/swagger-ui).
+Make sure that you're in the root directory of the `service-task-cdi` project (the directory containing the `pom.xml` file).
+We are ready to run our application. Run the following command to start the application in Quarkus development mode:
+
+`$ mvn clean compile quarkus:dev`
+
+When the application has started, you can access the http://localhost:8080/swagger-ui[Swagger UI]
 
 You should see the following page:
 
-![New Kogito Quarkus Web Page](/openshift/assets/middleware/middleware-kogito/new-kogito-quarkus-swagger-ui.png)
+image:images/new-kogito-quarkus-swagger-ui.png[Swagger UI]
 
 It's working!
-
 
 == Congratulations!
 
