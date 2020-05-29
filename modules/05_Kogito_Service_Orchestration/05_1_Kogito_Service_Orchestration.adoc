@@ -111,7 +111,7 @@ Kogito and Quarkus will _hot reload_ the application when it is accessed and cha
 
 Go back to your terminal (or open the integrated terminal in Visual Studio Code).
 
-image:images/vscode-integrated-terminal.png[VSCode POM]
+image:images/vscode-integrated-terminal.png[VSCode Integrated Terminal]
 
 Make sure that you're in the root directory of the `coffeeshop` project (the directory containing the `pom.xml` file).
 We are ready to run our application. Run the following command to start the application in Quarkus development mode:
@@ -402,7 +402,7 @@ public class CoffeeService {
 //Add RestClient annotations
 //Add RestClient attribute
 
-    public Collection&lt;Coffee&gt; getCoffees() {
+    public Collection<Coffee> getCoffees() {
       return null;
     }
 
