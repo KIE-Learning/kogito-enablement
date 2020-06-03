@@ -634,7 +634,7 @@ We will now implement the Camel `RouteBuilder`. In the `RouteBuilder` we impleme
 We implement this route builder in the package `org.acme.camel`. We therefore first need to create this package.
 In Visual Studio Code, in the `org/acme` folder in `src/main/java`, create a new folder named `camel`
 
-image:images/vscode-new-camel-package.java[New Camel Package]
+image:images/vscode-new-camel-package.png[New Camel Package]
 
 In this new folder, create a new file called `CoffeeRouteBuilder.java`.
 
@@ -784,7 +784,7 @@ We should see the following output in the console:
 [{"id":1,"name":"espresso-arabica","description":"arabica beans","price":2.0},{"id":2,"name":"espresso-robusta","description":"robusta beans","price":2.0},{"id":3,"name":"latte-arabica","description":"arabica beans, full fat bio milk","price":3.0}]
 ```
 
-=- Congratulations!
+== Congratulations!
 
 We've implemented the integration with our CoffeeService using Apache Camel's `netty-http` component. Well done!
 
