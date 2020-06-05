@@ -28,6 +28,21 @@ image:images/vscode-download-page.png[VSCode Download]
 
 == Install Kogito VSCode Plugins
 
+The Kogito VSCode extension uses a new _proposed API_ for custom webview editors. This API will be officially supported by Microsoft at a later point in time.
+Until then, we need to enable this _proposed API_ in our VSCode installation.
+
+This can be done by passing the `--enable-proposed-api` flag on Visual Studio Code startup.
+
+On both Windows, Linux and macOS, this means that you will need to start Visual Studio Code from a terminal in order to be able to pass the required startup flag.
+
+As an example, on Windows you can open `PowerShell` and start VSCode with the following command:
+
+```console
+code --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
+```
+
+Next, download the Kogito VSIX VSCode extension file from the https://github.com/kiegroup/kogito-tooling/releases/download/0.4.2/vscode_extension_kogito_kie_editors_0.4.2.vsix[following location], and save it on your local system.
+
 
 
 
