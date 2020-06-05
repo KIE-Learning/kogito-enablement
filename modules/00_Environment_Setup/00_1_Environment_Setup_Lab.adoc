@@ -2,10 +2,6 @@
 :toc2:
 :source-highlighter: pygments
 :pygments-style: emacs
-:dmn_github: link:https://github.com/gpe-mw-training/bxms_decision_mgmt_foundations_lab/tree/master/dmn[DMN GitHub repository]
-:gitHub_repo: link:https://github.com/gpe-mw-training/bxms_decision_mgmt_foundations_lab[GitHub repository]
-:business_central: link:https://localhost:8080/business-central[Business Central]
-:kie_server: link:https://localhost:8080/kie-server[KIE Server]
 :linkattrs:
 
 
@@ -21,9 +17,11 @@
 
 == Install Visual Studio Code IDE
 
-
+To install Visual Studio Code, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode version for your operating system.
 
 image:images/vscode-download-page.png[VSCode Download]
+
+Follow the standard installation instructions.
 
 
 == Install Kogito VSCode Plugins
@@ -43,7 +41,15 @@ code --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 
 Next, download the Kogito VSIX VSCode extension file from the https://github.com/kiegroup/kogito-tooling/releases/download/0.4.2/vscode_extension_kogito_kie_editors_0.4.2.vsix[following location], and save it on your local system.
 
+In VSCode, go to _Preferences -> Extensions_ to open the Extensions panel.
 
+image:images/vscode-install-extension.png[VSCode Install Extension]
+
+Next, click on _Install from VSIX_.
+
+image:images/vscode-extensions-install-from-vsix.png[VSCode Extension install from VSIX]
+
+Select the `vscode_extension_kogito_kie_editors_0.4.2.vsix` file we've just downloaded and click on _Install_. This will install the Kogito VSCode extension in your VSCode environment.
 
 
 == Install GraalVM
@@ -54,6 +60,7 @@ It supports additional programming languages and execution modes, like ahead-of-
 Although most of the exercises in our Kogito lab can be done on OpenJDK or Oracle Hotspot, we need GraalVM when we want to compile our application into _native executable_.
 
 Download GraalVM Community 20.1.0 from https://www.graalvm.org/downloads/[the following website] for your operating system, and follow the https://www.graalvm.org/getting-started/#install-graalvm[installation instructions] for your operating system.
+
 
 == Install cURL
 
