@@ -38,6 +38,7 @@ As an example, on Windows you can open `PowerShell` and start VSCode with the fo
 ```console
 code --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
+To install the code CLI on  macOS, you need to manually run the Shell Command: Install 'code' command in PATH command (available through the Command Palette ⇧⌘P). 
 
 Next, download the Kogito VSIX VSCode extension file from the https://github.com/kiegroup/kogito-tooling/releases/download/0.4.2/vscode_extension_kogito_kie_editors_0.4.2.vsix[following location], and save it on your local system.
 
