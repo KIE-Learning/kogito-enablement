@@ -1,6 +1,8 @@
 # Kogito Enablement Labs and Exercises
 
-This repository contains labs, exercises and another learning material for https://kogito.kie.org/[Kogito], the cloud-native business automation toolkit.
+![Kogito Logo](/modules/00_Environment_Setup/images/logo.png)
+
+This repository contains labs, exercises and another learning material for [Kogito](https://kogito.kie.org/), the cloud-native business automation toolkit.
 
 ## [Environment Setup](modules/00_Environment_Setup/00_1_Environment_Setup_Lab.adoc)
 
