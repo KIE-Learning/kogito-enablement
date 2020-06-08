@@ -77,7 +77,7 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd getting-started
-$ code .
+$ code --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
 
 In your Visual Studio Code IDE, with the generated project opened, look at the `pom.xml` file.
