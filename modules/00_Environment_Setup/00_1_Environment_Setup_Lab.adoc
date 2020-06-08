@@ -26,9 +26,11 @@ Follow the standard installation instructions.
 == Configure VSCode to run via Command Line
 
 Open VSCode, and look for the `Command Pallet` option:
+
 image:images/vscode-command-pallet.png[VSCode Command Pallet]
 
-Type `code` and select the option `Shell Command: install 'code' command in PATH`
+Type `code` and select the option `Shell Command: install 'code' command in PATH`:
+
 image:images/vscode-install-code-cmd.png[VSCode Install Code Command]
 
 When you click the option above, VSCode will configure your operational system so that you can run the `code` command in your terminal to open VSCode.
