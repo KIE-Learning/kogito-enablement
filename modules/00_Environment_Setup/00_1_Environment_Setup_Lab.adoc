@@ -9,20 +9,29 @@
 
 == Goals of this Lab
 
-* Install Visual Studio Code IDE.
-* Install Kogito VSCode Plugins.
-* Install GraalVM
-* Install cURL
+* Install Visual Studio Code IDE;
+* Install Kogito VSCode Plugins;
+* Install GraalVM;
+* Install cURL;
 
 
 == Install Visual Studio Code IDE
 
-To install Visual Studio Code, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode version for your operating system.
+To install Visual Studio Code, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode 1.45 version for your operating system.
 
 image:images/vscode-download-page.png[VSCode Download]
 
 Follow the standard installation instructions.
 
+== Configure VSCode to run via Command Line
+
+Open VSCode, and look for the `Command Pallet` option:
+image:images/vscode-command-pallet.png[VSCode Command Pallet]
+
+Type `code` and select the option `Shell Command: install 'code' command in PATH`
+image:images/vscode-install-code-cmd.png[VSCode Install Code Command]
+
+When you click the option above, VSCode will configure your operational system so that you can run the `code` command in your terminal to open VSCode.
 
 == Install Kogito VSCode Plugins
 
