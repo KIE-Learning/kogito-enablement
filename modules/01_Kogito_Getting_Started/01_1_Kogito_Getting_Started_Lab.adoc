@@ -345,7 +345,7 @@ The Swagger-UI will show the REST resources that have been generated from the pr
 In the Swagger UI, expand the **POST /getting_started** resource. Click on the **Try it out** button on the right-hand-side of the screen.
 Click on the blue **Execute** button to fire the request. The response will be the instance-id/process-id of the created **getting_started** resource.
 
-images:image/kogito-getting-started-swagger.png[Kogito Getting Started Swagger]
+image:images/kogito-getting-started-swagger.png[Kogito Getting Started Swagger]
 
 Apart from the Swagger-UI, we can also call our RESTful resources from any REST client, for example via a **cURL** in a terminal.
 
