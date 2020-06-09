@@ -131,14 +131,14 @@ It's working!
 
 == Congratulations!
 
-You've seen how to create the skeleton of basic Kogito app, and open the base process definition in the [Kogito Online Tooling](https://kiegroup.github.io/kogito-online/#/). Finally, you've started the application in _Quarkus dev-mode_.
+You've seen how to create the skeleton of basic Kogito app, and open the base process definition using the Kogito VSCode Extension. Finally, you've started the application in _Quarkus dev-mode_.
 
 = Create a CDI bean.
 
 To create a new CDI bean, we simply create a new Java file in our `src/main/java` folder. We want to define this bean in the `org.acme` package.
-To do this opn the `org/acme` folder in the `src/main/java` folde of your project, and in this folder create a new file called `TextProcessor.java`.
+To do this open the `org/acme` folder in the `src/main/java` folder of your project, and in this folder create a new file called `TextProcessor.java`.
 
-image:images/vscode-new-textprocessor.java[New TextProcessor.java]
+image:images/vscode-new-textprocessor-java.png[New TextProcessor.java]
 
 We can now add the class definition to our Java file. Replace the content of our newly created `TextProcessor.java` file with the following code snippet:
 
@@ -204,7 +204,7 @@ image:images/kogito-service-task-cdi-process-name.png[Process Name]
 
 Our application's functionality is to take an input `String` and convert it to uppercase. So, our process definition requires a process variable of type `String` to carry the data through the process.
 
-Scroll down in the properties panel until you see the section _Process Data_. Expand this section and click on the _+_ sign to add a new process variable. Give the variable the name `mytext` and the type `String`. Leave the _KPI_ checkbox unchecked.
+Scroll down in the properties panel until you see the section _Process Data_. Expand this section and click on the _+_ sign to add a new process variable. Give the variable the name `mytext` and the type `String`.
 
 image:images/kogito-service-task-cdi-process-variable.png[Process Variable]
 
@@ -214,7 +214,7 @@ In the diagram, double-click on the `Hello` _Script Task_ to change the name of 
 
 image:images/kogito-service-task-cdi-process-text-node.png[Process Text Node]
 
-Next, we need to change the node from a _Script Task_ to a _Service Task_. To do this, click on the node, hoover over the gear icon in the lower-left corner of the node, and select _Convert into Service Task_ in the menu.
+Next, we need to change the node from a _Script Task_ to a _Service Task_. To do this, click on the node, hover over the gear icon in the lower-left corner of the node, and select _Convert into Service Task_ in the menu.
 
 image:images/kogito-service-task-cdi-convert-into-service-task.png[Convert Into Service Task]
 
@@ -232,11 +232,13 @@ image:images/kogito-service-task-cdi-service-task-implementation.png[Service Tas
 With the implementation configuration set, we can now configure the data _Assignments_. In the properties panel, click on the pencil icon in the _Assignments_ section.
 In the form that opens, add the following _input_ and _output_ data assignments.
 
-image:images/kogito-service-task-cdi-service-task-data-assignment.png[Service Task Data Assignment]
+image:images/kogito-service-task-cdi-service-task-data-assignments.png[Service Task Data Assignment]
 
 Note that the _Name_ of the input assignment is the name of the `toUpper` method argument in our `TextProcessor` CDI bean.
 
-We have now implemented our process definition. Make sure to save the file.
+We have now implemented our process definition.
+
+*Make sure to save the file.*
 
 == Test the process
 
