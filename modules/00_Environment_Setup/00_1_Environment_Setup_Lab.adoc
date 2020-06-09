@@ -62,6 +62,11 @@ Next, click on _Install from VSIX_.
 
 image:images/vscode-extensions-install-from-vsix.png[VSCode Extension install from VSIX]
 
+TIP: If you are not able to find the option above, you can open the command pallet and look for `VSIX`:
+image:images/vscode-install-extension.png[VSCode Install Extension]
+image:images/vscode-extensions-install-from-vsix-cmd-pallet.png[VSCode Extension install from VSIX via Command Pallet]
+
+
 Select the `vscode_extension_kogito_kie_editors_0.4.2.vsix` file we've just downloaded and click on _Install_. This will install the Kogito VSCode extension in your VSCode environment.
 
 
@@ -74,6 +79,17 @@ Although most of the exercises in our Kogito lab can be done on OpenJDK or Oracl
 
 Download GraalVM Community 20.1.0 from https://www.graalvm.org/downloads/[the following website] for your operating system, and follow the https://www.graalvm.org/getting-started/#install-graalvm[installation instructions] for your operating system.
 
+You don't need the `ruby`, `r`, `python` and `wasm` packages. You only need the `native-image` package.
+
+Getting Started with GraalVM:
+
+* MacOS: https://www.graalvm.org/docs/getting-started/macos
+* Linux: https://www.graalvm.org/docs/getting-started/linux
+* Windows: https://www.graalvm.org/docs/getting-started/windows
+
+TIP: If you find any "permission denied" errors while running the `setx` command, try opening your terminal (command line) as an admin user by right clicking the command shell icon, and selecting `run as administrator`.
+
+TIP: If running on Windows, make sure GraalVM is the last Java configured on your PATH environment variable
 
 == Install cURL
 
@@ -83,6 +99,11 @@ We use the cURL command line client in some of the exercises to send RESTful req
 * macOS: cURL comes installed with macOS. If you want to install the latest version of cURL, you can use https://brew.sh/[Homebrew].
 * Windows: a Windows version of cURL can be downloaded https://curl.haxx.se/windows/[here].
 
+To test if you have it properly set up, open the command line and try running:
+
+```
+$ curl —version
+```
 
 == Congratulations!
 
