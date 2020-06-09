@@ -42,14 +42,14 @@ Kogito offers a powerful developer experience based on battle-tested components.
 * Execute in you local environment.
 * Create a native image.
 
-=== Prerequisits
+=== Prerequisites
 
 * Visual Studio Code
 * Kogito Tooling for Visual Studio Code
-* JDK 1.11+
+* JDK 11+
 * Maven 3.6.3+
 * cURL (or another client/tool with which RESTful requests can be sent to the Kogito application)
-* GraalVM 20.x OpenJDK 11 (Optional. Required if you want to run a native compilation)
+* GraalVM 20.x (Optional. Required if you want to run a native compilation)
 
 
 = Decision Model & Notation
@@ -93,13 +93,15 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd airmiles-service
-$ code .
+$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
+
+*Tip*: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 The default Kogito application created from the archetype contains a sample process called `test-process.bpmn2`. We will remove this process definition, as it is not required for our application.
 In your Visual Studio Code IDE, open the `src/main/resources` folder of the project and delete the `test-process.bpmn2` file.
 
-image:images/kogito-vscode-delete-test-bpmn[Delete Test BPMN2]
+image:images/kogito-vscode-delete-test-bpmn,png[Delete Test BPMN2]
 
 == Running the Application
 
@@ -141,9 +143,13 @@ The Kogito DMN engine is the most powerful DMN decision engine on the market, an
 == Creating the Model
 
 To create our DMN model, we first need to create a new file. In your VSCode IDE, open the `src/main/resources` folder.
-In this folder, create a new file called `airmiles.dmn`. This will automatically open the Kogito DMN editor.
+In this folder, create a new file called `airmiles.dmn`.
+
+image:images/vscode-new-file.png[New File]
 
 image:images/vscode-new-airmiles-dmn-file.png[Airmiles DMN]
+
+This will automatically open the Kogito DMN editor.
 
 DMN uses a graphical modeling language/notation to define decisions. Therefore, Kogito provides a graphical DMN editor as part of its toolset.
 Apart from providing this editor as an extension to _Visual Studio Code_ and _Red Hat Code Ready Workspaces_, we also  provide this editor online.
@@ -154,7 +160,20 @@ https://youtu.be/NAO0eV5c5tE
 
 Make sure to save the file after you've implemented the process.
 
-Alternatively, you can copy the following DMN definition to the DMN file:
+*Alternatively*, you can copy the following DMN definition to the DMN file.
+
+*TIP:* if you find issues with VSCode while trying to open the DMN in the text editor, follow these steps:
+
+  1. Open the DMN file using the designer
+  2. Open the `Command Pallet` (e.g. cmd+shift+p), type `reopen` and select `File: Reopen With...`
+
+image:images/vscode-reopen-file.png[Command Pallet Reopen File]
+
+  3. Next, select `Text Editor`
+
+image:images/vscode-reopen-with.png[Reopen file with Text Editor]
+
+Paste the following XML in the Text Editor and save the file.
 
 ```xml
 <dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_5D27A744-6EE3-4BC6-B891-9A8669912C99" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" id="_114F5D03-A27F-437C-9078-743D9F77C0BE" name="airmiles" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_5D27A744-6EE3-4BC6-B891-9A8669912C99">
