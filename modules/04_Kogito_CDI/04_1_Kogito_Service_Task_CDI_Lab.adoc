@@ -45,10 +45,10 @@ Kogito offers a powerful developer experience based on battle-tested components.
 
 * Visual Studio Code
 * Kogito Tooling for Visual Studio Code
-* JDK 1.11+
+* JDK 11+
 * Maven 3.6.3+
 * cURL (or another client/tool with which RESTful requests can be sent to the Kogito application)
-* GraalVM 20.x OpenJDK 11 (Optional. Required if you want to run a native compilation)
+* GraalVM 20.x (Optional. Required if you want to run a native compilation)
 
 
 = BPMN2 Service Task and CDI

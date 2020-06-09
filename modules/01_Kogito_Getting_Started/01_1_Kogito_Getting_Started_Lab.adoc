@@ -80,7 +80,7 @@ $ cd getting-started
 $ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
 
-*Tip*: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
+TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 In your Visual Studio Code IDE, with the generated project opened, look at the `pom.xml` file.
 
@@ -193,11 +193,9 @@ Make sure to save the file after you've implemented the process.
 
   1. Open the BPMN file using the process designer
   2. Open the `Command Pallet` (e.g. cmd+shift+p), type `reopen` and select `File: Reopen With...`
-
 image:images/vscode-reopen-file.png[Command Pallet Reopen File]
 
   3. Next, select `Text Editor`
-
 image:images/vscode-reopen-with.png[Reopen file with Text Editor]
 
 Paste the following XML in the Text Editor and save the file.

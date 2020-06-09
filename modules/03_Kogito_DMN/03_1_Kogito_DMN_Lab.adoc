@@ -96,12 +96,12 @@ $ cd airmiles-service
 $ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
 
-*Tip*: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
+TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 The default Kogito application created from the archetype contains a sample process called `test-process.bpmn2`. We will remove this process definition, as it is not required for our application.
 In your Visual Studio Code IDE, open the `src/main/resources` folder of the project and delete the `test-process.bpmn2` file.
 
-image:images/kogito-vscode-delete-test-bpmn,png[Delete Test BPMN2]
+image:images/kogito-vscode-delete-test-bpmn.png[Delete Test BPMN2]
 
 == Running the Application
 
@@ -166,11 +166,9 @@ Make sure to save the file after you've implemented the process.
 
   1. Open the DMN file using the designer
   2. Open the `Command Pallet` (e.g. cmd+shift+p), type `reopen` and select `File: Reopen With...`
-
 image:images/vscode-reopen-file.png[Command Pallet Reopen File]
 
   3. Next, select `Text Editor`
-
 image:images/vscode-reopen-with.png[Reopen file with Text Editor]
 
 Paste the following XML in the Text Editor and save the file.

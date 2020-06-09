@@ -17,11 +17,13 @@
 
 == Install Visual Studio Code IDE
 
-To install Visual Studio Code, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode 1.45 version for your operating system.
+To install Visual Studio Code version 1.45.1, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode 1.45 version for your operating system.
 
 image:images/vscode-download-page.png[VSCode Download]
 
 Follow the standard installation instructions.
+
+If you do not want to get automatic updates, you can set the Update: Mode setting from default to none . To modify the update mode, go to File > Preferences > Settings (macOS: Code > Preferences > Settings), search for update mode and change the setting to none .
 
 == Configure VSCode to run via Command Line
 
