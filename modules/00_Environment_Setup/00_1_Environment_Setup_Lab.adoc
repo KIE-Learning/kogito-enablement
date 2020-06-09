@@ -96,7 +96,7 @@ It supports additional programming languages and execution modes, like ahead-of-
 
 Although most of the exercises in our Kogito lab can be done on OpenJDK or Oracle Hotspot, we need GraalVM when we want to compile our application into _native executable_.
 
-Download GraalVM Community 20.1.0 from https://www.graalvm.org/downloads/[the following website] for your operating system, and follow the https://www.graalvm.org/getting-started/#install-graalvm[installation instructions] for your operating system.
+Download GraalVM Community 20.1.0 Java 11 (`graalvm-ce-java11`) from https://www.graalvm.org/downloads/[the following website] for your operating system, and follow the https://www.graalvm.org/getting-started/#install-graalvm[installation instructions] for your operating system.
 
 
 == Install cURL
