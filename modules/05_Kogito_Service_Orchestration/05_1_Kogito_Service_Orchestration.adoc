@@ -46,10 +46,10 @@ Kogito offers a powerful developer experience based on battle-tested components.
 
 * Visual Studio Code
 * Kogito Tooling for Visual Studio Code
-* JDK 1.11+
+* JDK 11
 * Maven 3.6.3+
 * cURL (or another client/tool with which RESTful requests can be sent to the Kogito application)
-* GraalVM 20.x OpenJDK 11 (Optional. Required if you want to run a native compilation)
+* GraalVM 20.x (Optional. Required if you want to run a native compilation)
 
 = BPMN2 and Services
 
@@ -76,10 +76,12 @@ Let's get started.
 
 To create a new Quarkus project with the Kogito extension, execute the following Maven command in a terminal
 
-`mvn io.quarkus:quarkus-maven-plugin:1.4.1.Final:create \
+```console
+mvn io.quarkus:quarkus-maven-plugin:1.4.1.Final:create \
     -DprojectGroupId=org.acme \
     -DprojectArtifactId=coffeeshop \
-    -Dextensions="org.kie.kogito:kogito-quarkus,io.quarkus:quarkus-smallrye-openapi"`
+    -Dextensions="org.kie.kogito:kogito-quarkus,io.quarkus:quarkus-smallrye-openapi"
+```
 
 
 This uses the Quarkus Maven plugin and generates a basic Maven project for us in the `coffeeshop` subdirectory which contains:
@@ -93,8 +95,10 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd coffeeshop
-$ code .
+$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
+
+TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 Open the `pom.xml` file. We will find the import of the Quarkus BOM which enables us to omit the version of the Kogito and Quarkus dependencies.
 In addition, we can see the `quarkus-maven-plugin`, which is responsible for packaging of the application and which allows us to start the application in Quarkus development mode.
@@ -134,7 +138,7 @@ The service provides a simple RESTful endpoint that returns a list of coffees on
 
 To run the service, we first need to compile and package it.
 
-Execute the following command in a terminal. Make sure that you're not in the `coffeeshop` project directory, as we want to clone this project in its own directory.
+Execute the following command in a terminal. Make sure that you're *not* in the `coffeeshop` project directory, as we want to clone this project in its own directory.
 
 `$ git clone https://github.com/DuncanDoyle/coffeeservice-quarkus.git`
 
@@ -164,7 +168,7 @@ You should see the following output:
 
 == Congratulations!
 
-We've seen how to create the skeleton of basic Kogito app, package it and start it up very quickly in `quarkus:dev` mode.
+We've seen how to create the skeleton of basic Kogito app, package it and start it up very quickly in `quarkus:dev` mode. We also packaged and started a Quarkus service that we will consume with our Kogito application on the next steps.
 
 In the next step we'll create a BPMN2 process definition for our coffeeshop.
 
@@ -186,6 +190,8 @@ image:images/kogito-rest-coffeeshop-process.png[Process]
 
 In the `src/main/resources` folder of your project, create a new file called `coffeeshop-process.bpmn`.
 
+image:images/vscode-new-file.png[New File]
+
 image:images/vscode-new-coffeeshop-process.png[CoffeeShop Process]
 
 BPMN2 allows us to define a graphical representation of a process (or workflow), and as such, we need a BPMN2 editor to implement our process.
@@ -198,28 +204,48 @@ Implement the process as follows (note that we can also bypass this step and sim
 ** Name: `coffeeshop`
 ** ID: `coffeeshop`
 ** Package: `org.acme`
+  image:images/vscode-process-id-name-package.png[Process ID, Name and Package]
+
 * Expand the _Process Data_ section and add the following _Process Variable_:
 ** Name: `coffees`
 ** Data Type: `java.util.Collection`
 * Add the tag `output` to this variable. This controls, among other things, the generation of our RESTful API. I.e., a variable tagged with `output` will not be part of the input model, and thus does not need to be passed when starting a process. It is however part of the output model, and hence will be returned to the client as a response of the RESTful call.
-* Create a StartEvent node.
-* Create a Service Task node.
-* Connect the Service Task node to the StartEvent.
-* Give the Service Task node the name: "Get Coffee Menu"
+  image:images/vscode-process-variables.png[Process Data]
+
+* Drag and drop on the canvas, a `StartEvent` node.
+  image:images/vscode-add-start-event.png[Add Start Event Node]
+
+* Add a Service Task node.
+  image:images/vscode-add-new-task.png[Add New Task to existing node]
+  image:images/vscode-convert-task-to-service-task.png[Add New Task to existing node]
+
+* Double click the Service Task, and give it the name: `Get Coffee Menu`
 * With the Service Task selected, open the property panel on the right-hand-side of the screen by clicking the pencil icon.
 * Expand the _Implementation/Execution_ section. Set the following values:
 ** Implementation: `Java`
 ** Interface: `org.acme.service.CoffeeService`
 ** Operation: `getCoffees`
-** Assignments: See image below
+image:images/vscode-servicetask-impl.png[Service Task Implementation details]
 
-image:images/kogito-coffee-process-getcoffee-data-assignment.png[GetCoffees Input Output]
+** Still on the properties panel, on the Service Task Assignments, add one `Data Outputs and Assignments` :
+** Name: coffees
+** Data Type: java.util.Collection
+** Target: coffees
+  image:images/kogito-coffee-process-getcoffee-data-assignment.png[GetCoffees Input Output]
 
-* Create an EndEvent node and connect it to the Service Task node.
-
+* Click on the Service Task and add a new EndEvent node.
+  image:images/vscode-add-end-event.png[Add End Event]
 After we've defined our process, make sure to save the file.
 
-Alternatively, we can copy the following BPMN2 definition to the BPMN file:
+*Alternatively*, you can copy the following BPMN2 definition to the BPMN file.
+
+*TIP*: if you find issues with VSCode while trying to open the BPMN in the text editor, follow these steps:
+
+  1. Open the BPMN file using the designer
+  2. Open the `Command Pallet` (e.g. cmd+shift+p), type `reopen` and select `File: Reopen With...`
+  3. Next, select `Text Editor`
+
+Paste the following XML in the Text Editor and save the file.
 
 ```xml
 <bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_F5Ou4HNMEDig17XG0NHLjQ" exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
@@ -364,18 +390,25 @@ In a terminal, in the root of your `coffeeshop-service` project, execute the fol
 
 In Visual Studio Code, open the `pom.xml` file of your `coffeeshop-service` project and observe that the required dependencies have been added.
 
+```
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-rest-client</artifactId>
+</dependency>
+```
+
 == JAX-RS Client
 
 Our Service Task node in our process will call the method `getCoffees` of a CDI bean called `CoffeeService`. Let's first create the skeleton of that bean.
 
 We will create a new `CoffeeService.java` file in the `org.acme` package. So, we first need to create this package.
-In the `src/main/java` folder of our `coffeshop-service`, create a new directory `org/acme` directory structure.
+In the `src/main/java` folder of our `coffeshop-service`, create a new directory `org/acme/service` directory structure.
 
 image:images/vscode-new-org-acme-service-package.png[]
 
-In this new directoy, create a new `CoffeeService.java` file.
+In this new directory, create a new `CoffeeService.java` file.
 
-image:images/vscode-new-coffeeservice-java.pngp[]
+image:images/vscode-new-coffeeservice-java.png[]
 
 Replace the content of this new file with the following code snippet:
 
@@ -540,7 +573,7 @@ Add the following code snippet to the `CoffeeService.java` class in the method `
 == Configuring the REST client
 With our code completed, we now only need to add some configuration options to our `application.properties` file to instruct our REST client which endpoint it needs to call.
 
-In VSCode, open the `application.propertes` file in the `src/main/resources` folder.
+In VSCode, open the `application.properties` file in the `src/main/resources` folder.
 
 Replace the content of the file with the following configuration.
 
@@ -581,7 +614,17 @@ With our code implemented, we can now start the application in Quarkus dev-mode 
 
 `$ mvn clean compile quarkus:dev`
 
-This downloads the new dependencies and starts our application in Quarkus development mode.
+This downloads the new dependencies and starts our application in Quarkus development mode. If everything is correct you should see the following message:
+
+```
+__  ____  __  _____   ___  __ ____  ______
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/
+2020-06-08 23:03:30,161 INFO  [io.quarkus] (Quarkus Main Thread) coffeeshop 1.0-SNAPSHOT on JVM (powered by Quarkus 1.5.0.Final) started in 3.007s. Listening on: http://0.0.0.0:8080
+2020-06-08 23:03:30,164 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2020-06-08 23:03:30,164 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, kogito, rest-client, resteasy, resteasy-jackson, smallrye-openapi, swagger-ui]
+```
 
 == Testing the Application
 
@@ -594,6 +637,8 @@ We see the following output in the console:
 ```console
 [{"id":1,"name":"espresso-arabica","description":"arabica beans","price":2.0},{"id":2,"name":"espresso-robusta","description":"robusta beans","price":2.0},{"id":3,"name":"latte-arabica","description":"arabica beans, full fat bio milk","price":3.0}]
 ```
+
+And if you check the log of the Kogito application and the Quarkus Service that is also running, you should see outputs on both logs.
 
 == Congratulations!
 
@@ -610,7 +655,7 @@ We will now replace that implementation with an Apache Camel implementation. The
 == Stop the Application
 Because we will add a number of Camel dependencies to our application, we must first stop our application.
 
-In the terminal in which our application is running, stop the application using `CTRL-C`.
+In the terminal in which our application is running, stop the Kogito application using `CTRL-C`.
 
 == Camel Dependencies
 
@@ -772,7 +817,7 @@ This downloads the new dependencies and starts our application in Quarkus develo
 
 Execute the following cURL command in a terminal to sens a request to our Kogito CoffeeShop service.
 
-`$ curl -X POST "http://localhost:8080/coffeeshop" -H "accept: application/json" -H "Content-Type: application/json" -d "{}"`{{execute T3}}
+`$ curl -X POST "http://localhost:8080/coffeeshop" -H "accept: application/json" -H "Content-Type: application/json" -d "{}"`
 
 We should see the following output in the console:
 
