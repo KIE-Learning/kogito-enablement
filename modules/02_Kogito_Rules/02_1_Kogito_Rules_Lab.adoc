@@ -41,14 +41,14 @@ Kogito offers a powerful developer experience based on battle-tested components.
 * Implement (business) rules in Kogito using RuleUnits.
 * Execute in you local environment.
 
-=== Prerequisits
+=== Prerequisites
 
 * Visual Studio Code
 * Kogito Tooling for Visual Studio Code
-* JDK 1.11+
+* JDK 11+
 * Maven 3.6.3+
 * cURL (or another client/tool with which RESTful requests can be sent to the Kogito application)
-* GraalVM 20.x OpenJDK 11 (Optional. Required if you want to run a native compilation)
+* GraalVM 20.x (Optional. Required if you want to run a native compilation)
 
 In this step, you will create a Kogito application skeleton.
 
@@ -85,13 +85,15 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd adult-service
-$ code .
+$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
 ```
+
+*Tip*: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 The default Kogito application created from the archetype contains a sample process called `test-process.bpmn2`. We will remove this process definition, as it is not required for our application.
 In your Visual Studio Code IDE, open the `src/main/resources` folder of the project and delete the `test-process.bpmn2` file.
 
-image:images/kogito-vscode-delete-test-bpmn[Delete Test BPMN2]
+image:images/kogito-vscode-delete-test-bpmn.png[Delete Test BPMN2]
 
 == Running the Application
 
@@ -205,7 +207,7 @@ You can use rule units to partition a rule set into smaller units, bind differen
 We first implement the skeleton of our `PersonUnit` class.
 To do this, we first create a new `PersonUnit.java` file in the `org.acme` package in `src/main/java`
 
-image:images/vscode-new-person-unit.java[PersonUnit Java]
+image:images/vscode-new-personunit-java.png[PersonUnit Java]
 
 Implement this new `PersonUnit` class as follows:
 
@@ -232,7 +234,6 @@ public class PersonUnit implements RuleUnitData {
 //Add adultAge Getters and Setters here
 
 }
-</pre>
 ```
 
 Notice that the class is not fully implemented yet. We will add the additional logic now.
@@ -318,7 +319,7 @@ The following constraint matches `Person` facts from the `persons` datastore of 
 Add this snippet to the DRL file, at the place of the `//Person OOPath` comment.
 
 ```
-  $p: /persons[age &gt;= 18];
+  $p: /persons[age >= 18];
 ```
 
 We can now implement the consequence of our rule, or the right-hand-side (RHS).
@@ -343,7 +344,7 @@ This completes the initial implementation of our DRL.
 
 With our domain model, rule unit and rules implemented, we can now start our application. In a terminal, execute the following Maven command.
 
-`$ mvn clean compile quarkus:dev`{{execute T1}}
+`$ mvn clean compile quarkus:dev`
 
 We can inspect the generated RESTful endpoint in the http://localhost:8080/swagger-ui[Swagger-UI] of the application.
 
@@ -401,7 +402,7 @@ We've now added the functionality we want, so we can start our application again
 
 We can now hit the application with a request that contains our new `adultAge` variable:
 
-`$ curl -X POST "http://localhost:8080/adult" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"adultAge\": 21, \"persons\":[{\"age\":18,\"name\":\"Jason\"}]}"`{{execute T2}}
+`$ curl -X POST "http://localhost:8080/adult" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"adultAge\": 21, \"persons\":[{\"age\":18,\"name\":\"Jason\"}]}"`
 
 This will give you the following result:
 
