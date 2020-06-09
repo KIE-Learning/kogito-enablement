@@ -10,10 +10,10 @@
 == Goals of this Lab
 
 * Install Visual Studio Code IDE;
+* Install VSCode Language Support for Java;
 * Install Kogito VSCode Plugins;
 * Install GraalVM;
 * Install cURL;
-
 
 == Install Visual Studio Code IDE
 
@@ -36,6 +36,30 @@ Type `code` and select the option `Shell Command: install 'code' command in PATH
 image:images/vscode-install-code-cmd.png[VSCode Install Code Command]
 
 When you click the option above, VSCode will configure your operational system so that you can run the `code` command in your terminal to open VSCode.
+
+== Install VSCode Language Support for Java
+
+Red Hat provides a Language Support package for Java plugin for Visual Studio. As we will be writing some Java code in these labs, we will need to install this plugin in our VSCode environment.
+
+There are multiple ways to do this:
+
+=== Install Java Language Support plugin from the VSCode marketplace
+You can install the plugin by navigating to the https://marketplace.visualstudio.com/items?itemName=redhat.java[VSCode Marketplace].
+Click on the green *Install* button to install the extension in your VSCode environment.
+
+image:images/vscode-marketplace-java-plugin.png[VSCode Marketplace Java Plugin]
+
+=== Install Java Language Support plugin from VSCode.
+You can also install the plugin directly from within VSCode. Navigate to _Preferences -> Extensions_.
+
+image:images/vscode-preferences-extensions.png[VSCode Preferences Extensions]
+
+In the search box, search for _language support for java_. The Red Hat extension should be on the top of the list.
+
+image:images/vscode-redhat-java-extension.png[VSCode Red Hat Java Extension]
+
+Select the extension and click on the _Install_ button.
+
 
 == Install Kogito VSCode Plugins
 
