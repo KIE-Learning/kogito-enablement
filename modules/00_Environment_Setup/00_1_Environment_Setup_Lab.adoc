@@ -27,6 +27,8 @@ If you do not want to get automatic updates, you can set the Update: Mode settin
 
 == Configure VSCode to run via Command Line
 
+TIP: This is not required when you use Windows and have installed Visual Studio Code using the Windows installer.
+
 Open VSCode, and look for the `Command Pallet` option:
 
 image:images/vscode-command-pallet.png[VSCode Command Pallet]
