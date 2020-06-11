@@ -85,10 +85,8 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd adult-service
-$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
+$ code .
 ```
-
-TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 The default Kogito application created from the archetype contains a sample process called `test-process.bpmn2`. We will remove this process definition, as it is not required for our application.
 In your Visual Studio Code IDE, open the `src/main/resources` folder of the project and delete the `test-process.bpmn2` file.

@@ -77,10 +77,8 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd getting-started
-$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
+$ code .
 ```
-
-TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 In your Visual Studio Code IDE, with the generated project opened, look at the `pom.xml` file.
 

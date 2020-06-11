@@ -17,7 +17,7 @@
 
 == Install Visual Studio Code IDE
 
-To install Visual Studio Code version 1.45.1, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode 1.45 version for your operating system.
+To install Visual Studio Code version 1.46, navigate to the https://code.visualstudio.com/[VSCode website], and click the blue _Download_ button to download the VSCode 1.46 version for your operating system.
 
 image:images/vscode-download-page.png[VSCode Download]
 
@@ -63,35 +63,39 @@ Select the extension and click on the _Install_ button.
 
 == Install Kogito VSCode Plugins
 
-The Kogito VSCode extension uses a new _proposed API_ for custom webview editors. This API will be officially supported by Microsoft at a later point in time.
-Until then, we need to enable this _proposed API_ in our VSCode installation.
+The Kogito VSCode extensions are available in the https://marketplace.visualstudio.com/publishers/redhat[Red Hat store of the Visual Studio Code Marketplace].
 
-This can be done by passing the `--enable-proposed-api` flag on Visual Studio Code startup.
+There are multiple ways top install the extension
 
-On both Windows, Linux and macOS, this means that you will need to start Visual Studio Code from a terminal in order to be able to pass the required startup flag.
+=== Install Kogito plugin from the VSCode marketplace:
 
-As an example, on Windows you can open `PowerShell` and start VSCode with the following command:
+You can install the plugin by navigating to the Business Automation extension on the https://marketplace.visualstudio.com/items?itemName=redhat.vscode-extension-red-hat-business-automation-bundle[VSCode Marketplace].
+Click on the green *Install* button to install the extension in your VSCode environment.
 
-```console
-code --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
-```
+image:images/vscode-marketplace-ba-plugin.png[VSCode Marketplace Business Automation Plugin]
 
-Next, download the Kogito VSIX VSCode extension file from the https://github.com/kiegroup/kogito-tooling/releases/download/0.4.2/vscode_extension_kogito_kie_editors_0.4.2.vsix[following location], and save it on your local system.
 
-In VSCode, go to _Preferences -> Extensions_ to open the Extensions panel.
+=== Install Kogito plugin from VSCode.
 
-image:images/vscode-install-extension.png[VSCode Install Extension]
+You can also install the plugin directly from within VSCode. Navigate to _Preferences -> Extensions_.
 
-Next, click on _Install from VSIX_.
+image:images/vscode-preferences-extensions.png[VSCode Preferences Extensions]
 
-image:images/vscode-extensions-install-from-vsix.png[VSCode Extension install from VSIX]
+In the search box, search for _red hat business_. The Red Hat Business Automation extension should be one of the first in the list.
 
+image:images/vscode-redhat-ba-extension.png[VSCode Red Hat Business Automation Extension]
+
+Select the extension and click on the _Install_ button.
+
+<<<<<<< HEAD
 TIP: If you are not able to find the option above, you can open the command pallet and look for `VSIX`:
 image:images/vscode-install-extension.png[VSCode Install Extension]
 image:images/vscode-extensions-install-from-vsix-cmd-pallet.png[VSCode Extension install from VSIX via Command Pallet]
 
 
 Select the `vscode_extension_kogito_kie_editors_0.4.2.vsix` file we've just downloaded and click on _Install_. This will install the Kogito VSCode extension in your VSCode environment.
+=======
+>>>>>>> Upgraded to VSCode 1.46 and Kogito tooling in marketplace.
 
 
 == Install GraalVM

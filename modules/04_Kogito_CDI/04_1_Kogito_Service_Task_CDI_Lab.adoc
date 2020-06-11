@@ -94,11 +94,8 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd service-task-cdi
-$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
+$ code .
 ```
-
-TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
-
 
 == BPMN2 Process Definition
 

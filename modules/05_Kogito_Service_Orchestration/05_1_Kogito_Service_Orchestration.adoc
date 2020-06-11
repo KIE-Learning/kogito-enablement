@@ -95,10 +95,8 @@ Once the project is generated, open the project in Visual Studio Code:
 
 ```
 $ cd coffeeshop
-$ code . --enable-proposed-api kiegroup.vscode-extension-pack-kogito-kie-editors
+$ code .
 ```
-
-TIP: The Kogito VSCode extension uses a new proposed API for custom webview editors. This API will be officially supported by Microsoft at a later point in time. Until then, we need to use the property above.
 
 Open the `pom.xml` file. We will find the import of the Quarkus BOM which enables us to omit the version of the Kogito and Quarkus dependencies.
 In addition, we can see the `quarkus-maven-plugin`, which is responsible for packaging of the application and which allows us to start the application in Quarkus development mode.
