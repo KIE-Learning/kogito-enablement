@@ -27,8 +27,6 @@ If you do not want to get automatic updates, you can set the Update: Mode settin
 
 == Configure VSCode to run via Command Line
 
-TIP: This is not required when you use Windows and have installed Visual Studio Code using the Windows installer.
-
 Open VSCode, and look for the `Command Pallet` option:
 
 image:images/vscode-command-pallet.png[VSCode Command Pallet]
@@ -88,17 +86,6 @@ In the search box, search for _red hat business_. The Red Hat Business Automatio
 image:images/vscode-redhat-ba-extension.png[VSCode Red Hat Business Automation Extension]
 
 Select the extension and click on the _Install_ button.
-
-<<<<<<< HEAD
-TIP: If you are not able to find the option above, you can open the command pallet and look for `VSIX`:
-image:images/vscode-install-extension.png[VSCode Install Extension]
-image:images/vscode-extensions-install-from-vsix-cmd-pallet.png[VSCode Extension install from VSIX via Command Pallet]
-
-
-Select the `vscode_extension_kogito_kie_editors_0.4.2.vsix` file we've just downloaded and click on _Install_. This will install the Kogito VSCode extension in your VSCode environment.
-=======
->>>>>>> Upgraded to VSCode 1.46 and Kogito tooling in marketplace.
-
 
 == Install GraalVM
 
