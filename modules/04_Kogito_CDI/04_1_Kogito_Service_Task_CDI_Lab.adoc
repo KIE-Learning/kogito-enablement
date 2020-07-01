@@ -251,6 +251,144 @@ If you've cURL installed on your system, execute the following command in a term
 
 The reply will be the same data converted to _uppercase_.
 
+
+= Deploy to OpenShift (optional)
+
+Kogito has been designed for cloud-native deployments and container-based architectures. Kogito provides an _Operator_ for OpenShift which allows us to quickly and easily deploy Kogito services to OpenShift Container Platform.
+
+We will be using the `kogito` CLI (Command Line Interface) and the `oc` (OpenShift Client) CLI to create a new project on OpenShift, provision the Kogito Operator, and deploy our first Kogito service.
+
+To be able to continue with this part of the lab, you will need to have access to an OpenShift instance and have your `oc` client connected to your OpenShift instance. More information on OpenShift and how to setup a local OpenShift development environment based on the Red Hat Container Ready Containers can be found https://developers.redhat.com/products/codeready-containers/overview[here].
+
+Execute the following command to verify that your `oc` client is connected to a running OpenShift instance:
+
+```
+$ oc status
+
+In project default on server https://api.crc.testing:6443
+
+svc/openshift - kubernetes.default.svc.cluster.local
+svc/kubernetes - 172.30.0.1:443 -> 6443
+
+View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
+```
+
+== Create the Kogito OpenShift project
+
+With our `oc` client connected, we can now create a new OpenShift project using the `kogito` CLI. When creating a new project using the `kogito` CLI, the tool not only creates a new project, but also installs the Kogito Operator. This operator is responsible for managing your Kogito services, support services and required infrastructure.
+
+```
+$ kogito new-project service-task-cdi
+```
+
+When you now navigate to your OpenShift Console, you will see that a new project has been created. Also, when you navigate to the `Installed Operators` view of your project, you can see that the Kogito Operator, and the Operator it depends on have been installed in your new project: 
+
+image:images/openshift-installed-operators.png[OpenShift Installed Operators]
+
+== Deploy Kogito Service
+
+Go back to your terminal and execute the following command to create a new Kogito service definition for our `service-task-cdi` service:
+
+```
+$ kogito deploy-service service-task-cdi
+```
+
+NOTE: The `deploy-service` operation can be executed with different arguments. When no argument is passed, the operator will create an OpenShift Build Confguration for _binary builds_. This allows you to build your Kogito service locally and pass the built JAR or native executable to the build configuration to be packaged in a container. You can also specify the location of a Git repository which contains your Kogito project. When you do this, the Kogito Operator will create an S2I (Source-to-Image) Build Configuration which will checkout your source code from the repository and compile and build your project on the OpenShift cluster.
+
+NOTE: In this lab we will be using the _binary build_ approach, as an S2I build without a Maven proxy/repository installed on the cluster tends to be slow (especially the first time you build a new project). Using the _binary build_ approach, we can build our project locally and push the binary to OpenShift to be packaged in a container.
+
+In the OpenShift Console, navigate to your project. Via the menu on the left-hand side of the screen navigate to _Operators -> Installed Operators_. Click on the `Kogito` Operator. In the Kogito Operator screen, click on the `Kogito Service` tab. Observe that an `adult-service` Kogito Service has been created.
+
+image:images/service-task-cdi-kogito-service.png[Service Task CDI Kogito Service]
+
+We can check that the Operator has created the required _Build Configuration_ of our project using our `oc` client:
+
+```
+$ oc get bc
+
+NAME                       TYPE     FROM     LATEST
+service-task-cdi           Source            0
+service-task-cdi-binary    Source   Binary   0
+service-task-cdi-builder   Source   Binary   0
+```
+
+... and as we can see, a `service-task-cdi-binary` build configuration has been created.
+
+NOTE: The Operator has only created the build configuraion and image streams. No _Deployment Config_, _Service_ or _Route_ has been created yet. These resources will be created once our first build has completed and a container image of our application is available.
+
+== Kogito OpenShift Binary Build
+
+Because we're using a binary build approach, we first need to create our runnable JAR file. Make sure that you're in the root directory of your `service-task-cdi` project (the directory that contains your projects `pom.xml` fil), and run the following Maven command to build your runnable Kogito JAR file:
+
+```
+$ mvn clean package -DskipTests
+```
+
+After the buils has finished, there will be a file called `service-task-cdi-1.0-SNAPSHOT-runner.jar` in your `target` directory:
+
+```
+$ ls target
+```
+
+We can now use the `oc` client to start the binary build:
+
+```
+$ oc start-build service-task-cdi-binary --from-dir=target/
+```
+
+This will upload the `target` directory to OpenShift. The build will filter out the assets it requires (runnable JAR, library directory) and package the binary in a container image that can be deployed on OpenShift.
+
+You can follow the progress of the build using the following command (given that `adult-service-binary-1` is the name of your first build instance. You can get a list with the names of the builds with `oc get build`):
+
+```
+$ oc logs -f build/service-task-cdi-binary-1
+```
+
+Once the build is finished, and the created container image is pushed to the image stream, the Kogito Operator will create the other resources of our application. Execute the following command to retrieve information about the _Deployment Config_:
+
+```
+$ oc get dc
+
+NAME               REVISION   DESIRED   CURRENT   TRIGGERED BY
+service-task-cdi   2          1         1         config,image(service-task-cdi:latest)
+```
+
+And the following command to retrieve the serviced:
+
+```
+$ oc get svc
+
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+keycloak-operator-metrics   ClusterIP   172.30.61.75     <none>        8383/TCP,8686/TCP   63m
+kogito-operator-metrics     ClusterIP   172.30.71.147    <none>        8383/TCP,8686/TCP   63m
+service-task-cdi            ClusterIP   172.30.188.229   <none>        8080/TCP            28m
+```
+
+And this command to retriev the route:
+
+```
+$ oc get route
+
+NAME               HOST/PORT                                            PATH   SERVICES           PORT   TERMINATION   WILDCARD
+service-task-cdi   service-task-cdi-service-task-cdi.apps-crc.testing          service-task-cdi   http                 None
+```
+
+== Test the Kogito Service
+
+We can use the route that we retrieved with our last command to evaluate our data against the rules of our `adult-service`. Execute the following commmand using cURL (replace the host and port with the information retrieved from your route):
+
+```
+$ curl -X POST "http://service-task-cdi-service-task-cdi.apps-crc.testing/text_processor" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"mytext\": \"hello\"}"
+
+{"id":"c26ddef6-0753-4a72-994f-22d65d66dbbc","mytext":"HELLO"}
+```
+
+We can also access the Swagger-UI at http://service-task-cdi-service-task-cdi.apps-crc.testing/swagger-ui/ (again, replace the host and port with the values for your environment).
+
+image:images/service-task-cdi-swagger-ui-openshift.png[Swagger-UI OpenShift]
+
+
+
 == Congratulations!
 
 In this scenario you've implemented the logic of a BPMN _Service Task_ node using CDI. There is much more to Kogito than CDI and hot-reload, so keep on exploring additional scenarios to learn more, and be sure to visit [kogito.kie.org](https://kogito.kie.org) to learn even more about the architecture and capabilities of this exciting new framework for Cloud Native Business Automation.
