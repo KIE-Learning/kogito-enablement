@@ -473,7 +473,6 @@ In the OpenShift Console, navigate to your project. Via the menu on the left-han
 
 image:images/getting-started-kogito-service.png[Getting Started Kogito Service]
 
-
 We can check that the Operator has created the required _Build Configuration_ of our project using our `oc` client:
 
 ```
