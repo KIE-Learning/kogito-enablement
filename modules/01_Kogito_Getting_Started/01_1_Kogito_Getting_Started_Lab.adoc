@@ -490,7 +490,7 @@ NOTE: The Operator has only created the build configuraion and image streams. No
 
 == Kogito OpenShift Binary Build
 
-In the previous part of this lab we've already created a runner JAR of our application using Maven. We can use this JAR file and send it to the _binary build_. Make sure that you're in the root directory of your `getting-started` project (the directory that contains your projects `pom.xml` file and the `target` folder with the runnable JAR), and use your own `oc` client to start the binary build:
+In the previous part of this lab we've already created a runner JAR of our application using Maven. We can use this JAR file and send it to the _binary build_. Make sure that you're in the root directory of your `getting-started` project (the directory that contains your projects `pom.xml` file and the `target` folder with the runnable JAR), and use your `oc` client to start the binary build:
 
 ```
 $ oc start-build getting-started-binary --from-dir=target/
