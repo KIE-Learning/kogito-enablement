@@ -433,7 +433,7 @@ NOTE: The `deploy-service` operation can be executed with different arguments. W
 
 NOTE: In this lab we will be using the _binary build_ approach, as an S2I build without a Maven proxy/repository installed on the cluster tends to be slow (especially the first time you build a new project). Using the _binary build_ approach, we can build our project locally and push the binary to OpenShift to be packaged in a container.
 
-In the OpenShift Console, navigate to your project. Via the menu on the left-hand side of the screen navigate to _Operatorors -> Installed Operators_. Click on the `Kogito` Operator. In the Kogito Operator screen, click on the `Kogito Service` tab. Observe that an `airmiles-service` Kogito Service has been created.
+In the OpenShift Console, navigate to your project. Via the menu on the left-hand side of the screen navigate to _Operators -> Installed Operators_. Click on the `Kogito` Operator. In the Kogito Operator screen, click on the `Kogito Service` tab. Observe that an `airmiles-service` Kogito Service has been created.
 
 image:images/airmiles-service-kogito-service.png[Airmiles Service Kogito Service]
 
