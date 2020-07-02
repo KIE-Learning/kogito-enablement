@@ -1003,7 +1003,7 @@ coffeeshop-service      coffeeshop-service-coffeeshop.apps-crc.testing          
 
 == Test the Kogito Service
 
-We can use the route that we retrieved with our last command to evaluate our data against the rules of our `airmiles-service`. Execute the following commmand using cURL (replace the host and port with the information retrieved from your route):
+We can use the route that we retrieved with our last command to evaluate our data against the rules of our `coffeeshop-service`. Execute the following commmand using cURL (replace the host and port with the information retrieved from your route):
 
 ```
 $ curl -X POST "http://coffeeshop-service-coffeeshop.apps-crc.testing/coffeeshop" -H "accept: application/json" -H "Content-Type: application/json" -d "{}"
