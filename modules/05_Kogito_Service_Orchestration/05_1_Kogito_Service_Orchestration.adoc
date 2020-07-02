@@ -696,6 +696,9 @@ import org.apache.camel.component.jackson.ListJacksonDataFormat;
 @ApplicationScoped
 public class CoffeeRouteBuilder extends RouteBuilder {
 
+    @ConfigProperty(name = "coffeeresource.camel.url", defaultValue = "netty-http:http://localhost:8090/coffee") 
+    String url;
+
     @Override
     public void configure() throws Exception {
 
@@ -704,7 +707,7 @@ public class CoffeeRouteBuilder extends RouteBuilder {
         from("direct://getCoffees").log("Get Coffee Route Triggered: ${body}")
         .setHeader("Accept").constant(MediaType.APPLICATION_JSON)
         .setHeader("CamelHttpMethod").constant("GET")
-        .to("netty-http:http://localhost:8090/coffee")
+        .to(url)
         .unmarshal(format);
 
     }
@@ -822,6 +825,196 @@ We should see the following output in the console:
 ```console
 [{"id":1,"name":"espresso-arabica","description":"arabica beans","price":2.0},{"id":2,"name":"espresso-robusta","description":"robusta beans","price":2.0},{"id":3,"name":"latte-arabica","description":"arabica beans, full fat bio milk","price":3.0}]
 ```
+
+= Deploy to OpenShift (optional)
+
+Kogito has been designed for cloud-native deployments and container-based architectures. Kogito provides an _Operator_ for OpenShift which allows us to quickly and easily deploy Kogito services to OpenShift Container Platform.
+
+We will be using the `kogito` CLI (Command Line Interface) and the `oc` (OpenShift Client) CLI to create a new project on OpenShift, provision the Kogito Operator, and deploy our first Kogito service.
+
+To be able to continue with this part of the lab, you will need to have access to an OpenShift instance and have your `oc` client connected to your OpenShift instance. More information on OpenShift and how to setup a local OpenShift development environment based on the Red Hat Container Ready Containers can be found https://developers.redhat.com/products/codeready-containers/overview[here].
+
+Execute the following command to verify that your `oc` client is connected to a running OpenShift instance:
+
+```
+$ oc status
+
+In project default on server https://api.crc.testing:6443
+
+svc/openshift - kubernetes.default.svc.cluster.local
+svc/kubernetes - 172.30.0.1:443 -> 6443
+
+View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
+```
+
+== Create the Kogito OpenShift project
+
+With our `oc` client connected, we can now create a new OpenShift project using the `kogito` CLI. When creating a new project using the `kogito` CLI, the tool not only creates a new project, but also installs the Kogito Operator. This operator is responsible for managing your Kogito services, support services and required infrastructure.
+
+```
+$ kogito new-project coffeeshop
+```
+
+When you now navigate to your OpenShift Console, you will see that a new project has been created. Also, when you navigate to the `Installed Operators` view of your project, you can see that the Kogito Operator, and the Operator it depends on have been installed in your new project: 
+
+image:images/openshift-installed-operators.png[OpenShift Installed Operators]
+
+
+== Deploy CoffeeService
+
+Our Kogito service uses the `coffeeservice` which provides the list of coffees. We therefore need to deploy this `coffeeservice` to OpenShift first. Since our `coffeeservice` is a Quarkus application, we can package it as a runnable JAR file with the following command:
+
+```
+$ mvn clean package -DskipTests
+```
+
+This will produce a `coffeeservice-quarkus-1.0-SNAPSHOT-runner.jar` runnable JAR in the project's `target` directory.
+
+Since this is a Quarkus application, just like our Kogito applications, we can simply use the Kogito Operator to deploy our `coffeeservice-quarkus`:
+
+```
+$ kogito deploy-service coffeeservice-quarkus -e QUARKUS_HTTP_PORT=8080
+```
+
+NOTE: Because the application has been configured, in its `application.properties` file to run on port 8090 (to prevent port conflicts when running multiple applications on the same machine), we now use an environment variable to configure the application to run on port 8080.
+
+In the OpenShift Console, navigate to your project. Via the menu on the left-hand side of the screen navigate to _Operators -> Installed Operators_. Click on the `Kogito` Operator. In the Kogito Operator screen, click on the `Kogito Service` tab. Observe that an `coffeeservice-quarkus` Service has been created.
+
+image:images/coffeeservice-quarkus-kogito-service.png[CoffeeService Quarkus Service]
+
+With our service definition ready, we can pass our runnable JAR to the binary build of our service:
+
+```
+$ oc start-build coffeeservice-quarkus-binary --from-dir=target/
+```
+
+Once the build has finished, a new deployment configuration, service and route will be created for our service.
+
+We can retrieve the route to our service with the following command:
+
+```
+$ oc get route
+
+NAME                    HOST/PORT                                           PATH   SERVICES                PORT   TERMINATION   WILDCARD
+coffeeservice-quarkus   coffeeservice-quarkus-coffeeshop.apps-crc.testing          coffeeservice-quarkus   http                 None
+```
+
+And we can retrieve the list of coffees by sending a GET request to this route (note: make sure to use the route you retrieved in the previous command when sending this request):
+
+```
+$ curl -X GET "http://coffeeservice-quarkus-coffeeshop.apps-crc.testing/coffee" -H "accept: application/json" -d "{}"
+
+[{"id":1,"name":"espresso-arabica","description":"arabica beans","price":2.0},{"id":2,"name":"espresso-robusta","description":"robusta beans","price":2.0},{"id":3,"name":"latte-arabica","description":"arabica beans, full fat bio milk","price":3.0}]
+```
+
+With our Quarkus REST service deployed on OpenShift, we can now deploy our Kogito service.
+
+== Deploy CoffeeShop Service
+
+Go back to your terminal and execute the following command to create a new Kogito service definition for our `coffeeshop-service`:
+
+```
+$ kogito deploy-service coffeeshop-service -e COFFEERESOURCE_CAMEL_URL="netty-http:http://coffeeservice-quarkus:8080/coffee" 
+```
+
+NOTE: The `deploy-service` operation can be executed with different arguments. When no argument is passed, the operator will create an OpenShift Build Confguration for _binary builds_. This allows you to build your Kogito service locally and pass the built JAR or native executable to the build configuration to be packaged in a container. You can also specify the location of a Git repository which contains your Kogito project. When you do this, the Kogito Operator will create an S2I (Source-to-Image) Build Configuration which will checkout your source code from the repository and compile and build your project on the OpenShift cluster.
+
+NOTE: In this lab we will be using the _binary build_ approach, as an S2I build without a Maven proxy/repository installed on the cluster tends to be slow (especially the first time you build a new project). Using the _binary build_ approach, we can build our project locally and push the binary to OpenShift to be packaged in a container.
+
+NOTE: We're setting the environment variable to set the `coffeeresource.camel.url` property to the `coffeeservice-quarkus` service in our OpenShift project (instead of pointing to `localhost`).
+
+In the OpenShift Console, navigate to your project. Via the menu on the left-hand side of the screen navigate to _Operators -> Installed Operators_. Click on the `Kogito` Operator. In the Kogito Operator screen, click on the `Kogito Service` tab. Observe that an `coffeeshop-service` Kogito Service has been created.
+
+image:images/coffeeshop-service-kogito-service.png[CoffeeShop Service Kogito Service]
+
+We can check that the Operator has created the required _Build Configuration_ of our project using our `oc` client:
+
+```
+$ oc get bc
+
+NAME                            TYPE     FROM     LATEST
+coffeeservice-quarkus           Source            0
+coffeeservice-quarkus-binary    Source   Binary   1
+coffeeservice-quarkus-builder   Source   Binary   0
+coffeeshop-service              Source            0
+coffeeshop-service-binary       Source   Binary   0
+coffeeshop-service-builder      Source   Binary   0
+```
+
+... and as we can see, a `coffeeshop-service-binary` build configuration has been created.
+
+NOTE: The Operator has only created the build configuraion and image streams. No _Deployment Config_, _Service_ or _Route_ has been created yet. These resources will be created once our first build has completed and a container image of our application is available.
+
+== Kogito OpenShift Binary Build
+
+To start a binary build, we first need to build our runnable JAR locally first. In the root directory of the `coffeeshop-service` (the directory that contains the project's `pom.xml` file), execute the following commmand:
+
+```
+$ mvn clean package -DskipTests
+```
+
+This will produce a `coffeeshop-1.0-SNAPSHOT-runner.jar` runnable JAR in the project's `target` directory.
+
+We can now send this JAR file to the binary build using the following command:
+
+```
+$ oc start-build coffeeshop-service-binary --from-dir=target/
+```
+
+This will upload the `target` directory to OpenShift. The build will filter out the assets it requires (runnable JAR, library directory) and package the binary in a container image that can be deployed on OpenShift.
+
+You can follow the progress of the build using the following command (given that `coffeeshop-service-binary-1` is the name of your first build instance. You can get a list with the names of the builds with `oc get build`):
+
+```
+$ oc logs -f build/coffeeshop-service-binary-1
+```
+
+Once the build is finished, and the created container image is pushed to the image stream, the Kogito Operator will create the other resources of our application. Execute the following command to retrieve information about the _Deployment Config_:
+
+```
+$ oc get dc
+
+NAME                    REVISION   DESIRED   CURRENT   TRIGGERED BY
+coffeeservice-quarkus   2          1         1         config,image(coffeeservice-quarkus:latest)
+coffeeshop-service      1          1         1         config,image(coffeeshop-service:latest)
+```
+
+And the following command to retrieve the serviced:
+
+```
+$ oc get svc
+
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+coffeeservice-quarkus       ClusterIP   172.30.132.44    <none>        8080/TCP            171m
+coffeeshop-service          ClusterIP   172.30.51.24     <none>        8080/TCP            6m54s
+keycloak-operator-metrics   ClusterIP   172.30.119.218   <none>        8383/TCP,8686/TCP   5h34m
+kogito-operator-metrics     ClusterIP   172.30.20.10     <none>        8383/TCP,8686/TCP   5h33m
+```
+
+And this command to retriev the route:
+
+```
+$ oc get route
+
+NAME                    HOST/PORT                                           PATH   SERVICES                PORT   TERMINATION   WILDCARD
+coffeeservice-quarkus   coffeeservice-quarkus-coffeeshop.apps-crc.testing          coffeeservice-quarkus   http                 None
+coffeeshop-service      coffeeshop-service-coffeeshop.apps-crc.testing             coffeeshop-service      http                 None
+```
+
+== Test the Kogito Service
+
+We can use the route that we retrieved with our last command to evaluate our data against the rules of our `airmiles-service`. Execute the following commmand using cURL (replace the host and port with the information retrieved from your route):
+
+```
+$ curl -X POST "http://coffeeshop-service-coffeeshop.apps-crc.testing/coffeeshop" -H "accept: application/json" -H "Content-Type: application/json" -d "{}"
+
+{"id":"fb649361-74e5-4b78-a084-29ec53181f9e","coffees":[{"id":1,"name":"espresso-arabica","description":"arabica beans","price":2.0},{"id":2,"name":"espresso-robusta","description":"robusta beans","price":2.0},{"id":3,"name":"latte-arabica","description":"arabica beans, full fat bio milk","price":3.0}]}
+```
+
+We can also access the Swagger-UI at http://coffeeshop-service-coffeeshop.apps-crc.testing/swagger-ui/ (again, replace the host and port with the values for your environment).
+
+image:images/coffeeshop-service-swagger-ui-openshift.png[Swagger-UI OpenShift]
+
 
 == Congratulations!
 
